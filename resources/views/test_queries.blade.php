@@ -20,22 +20,22 @@
 				<div class="box-body" style="display: none;">
 				  <div class="row">
 					<div class="col-xs-2">
-					  <a type="button" href="{{URL('/original_q1_form')}}" class="btn btn-block btn-default btn-lg fancybox-form">Q1</a>
+					  <a type="button" href="{{URL('/original_q1_form')}}" class="btn btn-block btn-default btn-lg ajax-statistic">Q1</a>
 					</div>
 					<div class="col-xs-2" style="border-right: 5px solid black;">
-						<a href="{{URL('/original_q1_form')}}" class="btn btn-block btn-default btn-lg fancybox-form "><i class="fa fa-code"></i></a>
+						<a href="{{URL('/mongo_q1_code_view')}}" class="btn btn-block btn-default btn-lg fancybox-form "><i class="fa fa-code"></i></a>
 					</div>
 					<div class="col-xs-2">
-					  <a type="button" href="{{URL('/original_q3_form')}}" class="btn btn-block btn-default btn-lg fancybox-form">Q3</a>
+					  <a type="button" href="{{URL('/original_q3_form')}}" class="btn btn-block btn-default btn-lg ajax-statistic">Q3</a>
 					</div>
 					<div class="col-xs-2" style="border-right: 5px solid black;">
-					  <a type="button" href="{{URL('/original_q3_form')}}" class="btn btn-block btn-default btn-lg fancybox-form"><i class="fa fa-code"></i></a>
+					  <a type="button" href="{{URL('/mongo_q3_code_view')}}" class="btn btn-block btn-default btn-lg fancybox-form"><i class="fa fa-code"></i></a>
 					</div>
 					<div class="col-xs-2">
-						<a type="button" href="{{URL('/original_q4_form')}}" class="btn btn-block btn-default btn-lg fancybox-form">Q4</a>
+						<a type="button" href="{{URL('/original_q4_form')}}" class="btn btn-block btn-default btn-lg ajax-statistic">Q4</a>
 					</div>
 					<div class="col-xs-2">
-					 <a type="button" href="{{URL('/original_q4_form')}}" class="btn btn-block btn-default btn-lg fancybox-form"><i class="fa fa-code"></i></a>
+					 <a type="button" href="{{URL('/mongo_q4_code_view')}}" class="btn btn-block btn-default btn-lg fancybox-form"><i class="fa fa-code"></i></a>
 					</div>
 				  </div>
 				</div>
@@ -60,19 +60,19 @@
 					  <a type="button" href="{{URL('/original_q1_form')}}" class="btn btn-block btn-default btn-lg fancybox-form">Q1</a>
 					</div>
 					<div class="col-xs-2" style="border-right: 5px solid black;">
-						<a href="{{URL('/original_q1_form')}}" class="btn btn-block btn-default btn-lg fancybox-form "><i class="fa fa-code"></i></a>
+						<a href="{{URL('/cassandra_q1_code_view')}}" class="btn btn-block btn-default btn-lg fancybox-form "><i class="fa fa-code"></i></a>
 					</div>
 					<div class="col-xs-2">
 					  <a type="button" href="{{URL('/original_q3_form')}}" class="btn btn-block btn-default btn-lg fancybox-form">Q3</a>
 					</div>
 					<div class="col-xs-2" style="border-right: 5px solid black;">
-					  <a type="button" href="{{URL('/original_q3_form')}}" class="btn btn-block btn-default btn-lg fancybox-form"><i class="fa fa-code"></i></a>
+					  <a type="button" href="{{URL('/cassandra_q3_code_view')}}" class="btn btn-block btn-default btn-lg fancybox-form"><i class="fa fa-code"></i></a>
 					</div>
 					<div class="col-xs-2">
 						<a type="button" href="{{URL('/original_q4_form')}}" class="btn btn-block btn-default btn-lg fancybox-form">Q4</a>
 					</div>
 					<div class="col-xs-2">
-					 <a type="button" href="{{URL('/original_q4_form')}}" class="btn btn-block btn-default btn-lg fancybox-form"><i class="fa fa-code"></i></a>
+					 <a type="button" href="{{URL('/cassandra_q4_code_view')}}" class="btn btn-block btn-default btn-lg fancybox-form"><i class="fa fa-code"></i></a>
 					</div>
 				  </div>
 				</div>
@@ -94,22 +94,22 @@
 				<div class="box-body" style="display: none;">
 				  <div class="row">
 					<div class="col-xs-2">
-					  <a type="button" href="{{URL('/original_q1_form')}}" class="btn btn-block btn-default btn-lg fancybox-form">Q1</a>
+					  <a type="button" href="{{URL('/n_q1_form')}}" class="btn btn-block btn-default btn-lg fancybox-form">Q1</a>
 					</div>
 					<div class="col-xs-2" style="border-right: 5px solid black;">
-						<a href="{{URL('/original_q1_form')}}" class="btn btn-block btn-default btn-lg fancybox-form "><i class="fa fa-code"></i></a>
+						<a href="{{URL('/neo4j_q1_code_view')}}" class="btn btn-block btn-default btn-lg fancybox-form "><i class="fa fa-code"></i></a>
 					</div>
 					<div class="col-xs-2">
 					  <a type="button" href="{{URL('/original_q3_form')}}" class="btn btn-block btn-default btn-lg fancybox-form">Q3</a>
 					</div>
 					<div class="col-xs-2" style="border-right: 5px solid black;">
-					  <a type="button" href="{{URL('/original_q3_form')}}" class="btn btn-block btn-default btn-lg fancybox-form"><i class="fa fa-code"></i></a>
+					  <a type="button" href="{{URL('/neo4j_q3_code_view')}}" class="btn btn-block btn-default btn-lg fancybox-form"><i class="fa fa-code"></i></a>
 					</div>
 					<div class="col-xs-2">
 						<a type="button" href="{{URL('/original_q4_form')}}" class="btn btn-block btn-default btn-lg fancybox-form">Q4</a>
 					</div>
 					<div class="col-xs-2">
-					 <a type="button" href="{{URL('/original_q4_form')}}" class="btn btn-block btn-default btn-lg fancybox-form"><i class="fa fa-code"></i></a>
+					 <a type="button" href="{{URL('/neo4j_q4_code_view')}}" class="btn btn-block btn-default btn-lg fancybox-form"><i class="fa fa-code"></i></a>
 					</div>
 				  </div>
 				</div>
@@ -193,6 +193,16 @@ $('.fancybox-form').fancybox({
 	href: 'http://masternew/public/original_q1_form',
 	type: 'ajax'
 });
+
+$.ajax({
+  type: 'POST',
+  url: 'response.php?action=sample2',
+  data: 'name=Andrew&nickname=Aramis',
+  success: function(data){
+    $('.results').html(data);
+  }
+});
+
 
 /*$(".box-body").fancybox({
 	'showCloseButton'	: false,

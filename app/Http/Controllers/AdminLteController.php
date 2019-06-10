@@ -31,18 +31,48 @@ class AdminLteController extends Controller
 		return view('original_q4');
 	}
 	
-	public function master_q1_form()
+	public function mongo_q1_code_view()
 	{
-		return view('original_q1');
+		return view('mongo_q1_code_view');
 	}
 	
-	public function master_q3_form()
+	public function mongo_q3_code_view()
 	{
-		return view('original_q3');
+		return view('mongo_q3_code_view');
 	}
-	public function master_q4_form()
+	public function mongo_q4_code_view()
 	{
-		return view('original_q4');
+		return view('mongo_q4_code_view');
+	}
+	
+	public function neo4j_q1_code_view()
+	{
+		return view('neo4j_q1_code_view');
+	}
+	
+	public function neo4j_q3_code_view()
+	{
+		return view('neo4j_q3_code_view');
+	}
+	
+	public function neo4j_q4_code_view()
+	{
+		return view('neo4j_q4_code_view');
+	}
+	
+	public function cassandra_q1_code_view()
+	{
+		return view('cassandra_q1_code_view');
+	}
+	
+	public function cassandra_q3_code_view()
+	{
+		return view('cassandra_q3_code_view');
+	}
+	
+	public function cassandra_q4_code_view()
+	{
+		return view('cassandra_q4_code_view');
 	}
 	
 	public function test_queries()

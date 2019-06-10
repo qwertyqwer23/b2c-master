@@ -61,7 +61,7 @@ return [
 		
 		'mongodb_small' => [
             'driver' => 'mongodb',
-            'host' => env('DB_HOST', '127.0.0.1'),
+            'host' => '127.0.0.1',
             'port' =>  '27017',
             'database' => 'b2c_small',
             'charset' => 'utf8',
@@ -73,7 +73,7 @@ return [
         ],
 		'mongodb_middle' => [
             'driver' => 'mongodb',
-            'host' => env('DB_HOST', '127.0.0.1'),
+            'host' =>  '127.0.0.1',
             'port' =>  '27017',
             'database' => 'b2c_middle',
             'charset' => 'utf8',

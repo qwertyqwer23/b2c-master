@@ -28,10 +28,17 @@ Route::get('original_q1_form', 'AdminLteController@original_q1_form');
 Route::get('original_q3_form', 'AdminLteController@original_q3_form');
 Route::get('original_q4_form', 'AdminLteController@original_q4_form');
 
-Route::get('manga_q1_form', 'AdminLteController@manga_q1_form');
-Route::get('manga_q3_form', 'AdminLteController@manga_q3_form');
-Route::get('manga_q4_form', 'AdminLteController@manga_q4_form');
+Route::get('mongo_q1_code_view', 'AdminLteController@mongo_q1_code_view');
+Route::get('mongo_q3_code_view', 'AdminLteController@mongo_q3_code_view');
+Route::get('mongo_q4_code_view', 'AdminLteController@mongo_q4_code_view');
 
+Route::get('cassandra_q1_code_view', 'AdminLteController@cassandra_q1_code_view');
+Route::get('cassandra_q3_code_view', 'AdminLteController@cassandra_q3_code_view');
+Route::get('cassandra_q4_code_view', 'AdminLteController@cassandra_q4_code_view');
+
+Route::get('neo4j_q1_code_view', 'AdminLteController@neo4j_q1_code_view');
+Route::get('neo4j_q3_code_view', 'AdminLteController@neo4j_q3_code_view');
+Route::get('neo4j_q4_code_view', 'AdminLteController@neo4j_q4_code_view');
 
 Route::get('select', 'MasterMongodbController@select');
 

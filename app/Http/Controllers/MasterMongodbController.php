@@ -42,8 +42,16 @@ class MasterMongodbController extends Controller
 		return date('Y-m-d', $val);
 	}
 	
+
+	
 	private function get_q1(){
-		return Lineitem::raw(function($collection)
+		//dd(DB::connection('mongodb_small')->collection('b2c_small'));
+		//return DB::connection('mongodb_small')->raw(function($collection)
+		//return Lineitem::raw(function($collection)
+		//$result = DB::collection('b2c_small')->raw(function($collection)
+		//DB::connection( 'mongodb_small' )->enableQueryLog();
+		
+		return DB::connection('mongodb_small')->collection('lineitems')->raw(function($collection)
 		{
 			return $collection->aggregate([  
 			    [  
@@ -126,6 +134,8 @@ class MasterMongodbController extends Controller
 			   ]
 			]);
 		})->toArray();
+		
+		//dd(DB::connection('mongodb_small')->getQueryLog());
 	}
 	
 	private function get_q3(){
@@ -293,6 +303,7 @@ class MasterMongodbController extends Controller
 		dd($q4_result);
     }
 	
+	
 	public function return_query_statistic($count = 15){
 		set_time_limit(200000);	
 		
@@ -303,6 +314,9 @@ class MasterMongodbController extends Controller
 		for ($i = 1; $i <= $count; $i++) {
 			$starttime = microtime(true);
 				$result = $this->get_q1();
+				$name = $result[0]["sum_qty"];
+				//$value = $array[0]["value"];
+				dd($name);
 			$endtime = microtime(true);
 			$timediff = $endtime - $starttime;
 			
