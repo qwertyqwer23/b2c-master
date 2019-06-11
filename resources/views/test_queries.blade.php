@@ -5,6 +5,8 @@
 <link rel="stylesheet" type="text/css" href="plugins/fancybox/jquery.fancybox.min.css">
 <script src="plugins/fancybox/jquery.fancybox.min.js"></script>
 
+<meta name="_token" content="{{ csrf_token() }}"/>
+
 <section class="content">
    <div class="row">
         <div class="col-xs-12">
@@ -20,19 +22,19 @@
 				<div class="box-body" style="display: none;">
 				  <div class="row">
 					<div class="col-xs-2">
-					  <a type="button" href="{{URL('/original_q1_form')}}" class="btn btn-block btn-default btn-lg ajax-statistic">Q1</a>
+					  <a type="button" href="{{URL('/mongo_q1_statistic')}}" class="btn btn-block btn-default btn-lg ajax-statistic">Q1</a>
 					</div>
 					<div class="col-xs-2" style="border-right: 5px solid black;">
 						<a href="{{URL('/mongo_q1_code_view')}}" class="btn btn-block btn-default btn-lg fancybox-form "><i class="fa fa-code"></i></a>
 					</div>
 					<div class="col-xs-2">
-					  <a type="button" href="{{URL('/original_q3_form')}}" class="btn btn-block btn-default btn-lg ajax-statistic">Q3</a>
+					  <a type="button" href="{{URL('/mongo_q3_statistic')}}" class="btn btn-block btn-default btn-lg ajax-statistic">Q3</a>
 					</div>
 					<div class="col-xs-2" style="border-right: 5px solid black;">
 					  <a type="button" href="{{URL('/mongo_q3_code_view')}}" class="btn btn-block btn-default btn-lg fancybox-form"><i class="fa fa-code"></i></a>
 					</div>
 					<div class="col-xs-2">
-						<a type="button" href="{{URL('/original_q4_form')}}" class="btn btn-block btn-default btn-lg ajax-statistic">Q4</a>
+						<a type="button" href="{{URL('/mongo_q4_statistic')}}" class="btn btn-block btn-default btn-lg ajax-statistic">Q4</a>
 					</div>
 					<div class="col-xs-2">
 					 <a type="button" href="{{URL('/mongo_q4_code_view')}}" class="btn btn-block btn-default btn-lg fancybox-form"><i class="fa fa-code"></i></a>
@@ -43,44 +45,7 @@
 			  </div>
         </div>
       </div>
-	     <div class="row">
-        <div class="col-xs-12">
-			<div class="box box-danger collapsed-box">
-				<div class="box-header with-border">
-				  <h3 class="box-title">Cassandra</h3>
-
-				  <div class="box-tools pull-right">
-					<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
-					<button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-remove"></i></button>
-				  </div>
-				</div>
-				<div class="box-body" style="display: none;">
-				  <div class="row">
-					<div class="col-xs-2">
-					  <a type="button" href="{{URL('/original_q1_form')}}" class="btn btn-block btn-default btn-lg fancybox-form">Q1</a>
-					</div>
-					<div class="col-xs-2" style="border-right: 5px solid black;">
-						<a href="{{URL('/cassandra_q1_code_view')}}" class="btn btn-block btn-default btn-lg fancybox-form "><i class="fa fa-code"></i></a>
-					</div>
-					<div class="col-xs-2">
-					  <a type="button" href="{{URL('/original_q3_form')}}" class="btn btn-block btn-default btn-lg fancybox-form">Q3</a>
-					</div>
-					<div class="col-xs-2" style="border-right: 5px solid black;">
-					  <a type="button" href="{{URL('/cassandra_q3_code_view')}}" class="btn btn-block btn-default btn-lg fancybox-form"><i class="fa fa-code"></i></a>
-					</div>
-					<div class="col-xs-2">
-						<a type="button" href="{{URL('/original_q4_form')}}" class="btn btn-block btn-default btn-lg fancybox-form">Q4</a>
-					</div>
-					<div class="col-xs-2">
-					 <a type="button" href="{{URL('/cassandra_q4_code_view')}}" class="btn btn-block btn-default btn-lg fancybox-form"><i class="fa fa-code"></i></a>
-					</div>
-				  </div>
-				</div>
-				<!-- /.box-body -->
-			  </div>
-        </div>
-      </div>
-	     <div class="row">
+	<div class="row">
         <div class="col-xs-12">
 			<div class="box box-danger collapsed-box">
 				<div class="box-header with-border">
@@ -94,19 +59,19 @@
 				<div class="box-body" style="display: none;">
 				  <div class="row">
 					<div class="col-xs-2">
-					  <a type="button" href="{{URL('/n_q1_form')}}" class="btn btn-block btn-default btn-lg fancybox-form">Q1</a>
+					  <a type="button" href="{{URL('/neo4j_q1_statistic')}}" class="btn btn-block btn-default btn-lg ajax-statistic">Q1</a>
 					</div>
 					<div class="col-xs-2" style="border-right: 5px solid black;">
-						<a href="{{URL('/neo4j_q1_code_view')}}" class="btn btn-block btn-default btn-lg fancybox-form "><i class="fa fa-code"></i></a>
+						<a href="{{URL('/neo4j_q1_code_view')}}" class="btn btn-block btn-default btn-lg fancybox-form"><i class="fa fa-code"></i></a>
 					</div>
 					<div class="col-xs-2">
-					  <a type="button" href="{{URL('/original_q3_form')}}" class="btn btn-block btn-default btn-lg fancybox-form">Q3</a>
+					  <a type="button" href="{{URL('/neo4j_q3_statistic')}}" class="btn btn-block btn-default btn-lg ajax-statistic">Q3</a>
 					</div>
 					<div class="col-xs-2" style="border-right: 5px solid black;">
 					  <a type="button" href="{{URL('/neo4j_q3_code_view')}}" class="btn btn-block btn-default btn-lg fancybox-form"><i class="fa fa-code"></i></a>
 					</div>
 					<div class="col-xs-2">
-						<a type="button" href="{{URL('/original_q4_form')}}" class="btn btn-block btn-default btn-lg fancybox-form">Q4</a>
+						<a type="button" href="{{URL('/neo4j_q4_statistic')}}" class="btn btn-block btn-default btn-lg ajax-statistic">Q4</a>
 					</div>
 					<div class="col-xs-2">
 					 <a type="button" href="{{URL('/neo4j_q4_code_view')}}" class="btn btn-block btn-default btn-lg fancybox-form"><i class="fa fa-code"></i></a>
@@ -114,67 +79,62 @@
 				  </div>
 				</div>
 				<!-- /.box-body -->
+			</div>
+		</div>
+    </div>
+	<div class="row">
+        <div class="col-xs-12">
+			<div class="box box-danger collapsed-box">
+				<div class="box-header with-border">
+				  <h3 class="box-title">Cassandra</h3>
+
+				  <div class="box-tools pull-right">
+					<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
+					<button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-remove"></i></button>
+				  </div>
+				</div>
+				<div class="box-body" style="display: none;">
+				  <div class="row">
+					<div class="col-xs-2">
+					  <a type="button" href="{{URL('/cassandra_q1_statistic')}}" class="btn btn-block btn-default btn-lg ajax-statistic">Q1</a>
+					</div>
+					<div class="col-xs-2" style="border-right: 5px solid black;">
+						<a href="{{URL('/cassandra_q1_code_view')}}" class="btn btn-block btn-default btn-lg fancybox-form "><i class="fa fa-code"></i></a>
+					</div>
+					<div class="col-xs-2">
+					  <a type="button" href="{{URL('/cassandra_q3_statistic')}}" class="btn btn-block btn-default btn-lg ajax-statistic">Q3</a>
+					</div>
+					<div class="col-xs-2" style="border-right: 5px solid black;">
+					  <a type="button" href="{{URL('/cassandra_q3_code_view')}}" class="btn btn-block btn-default btn-lg fancybox-form"><i class="fa fa-code"></i></a>
+					</div>
+					<div class="col-xs-2">
+						<a type="button" href="{{URL('/cassandra_q4_statistic')}}" class="btn btn-block btn-default btn-lg ajax-statistic">Q4</a>
+					</div>
+					<div class="col-xs-2">
+					 <a type="button" href="{{URL('/cassandra_q4_code_view')}}" class="btn btn-block btn-default btn-lg fancybox-form"><i class="fa fa-code"></i></a>
+					</div>
+				  </div>
+				</div>
+				<!-- /.box-body -->
 			  </div>
         </div>
       </div>
+
       <div class="row">
         <div class="col-xs-12">
           <div class="box">
             <div class="box-header">
               <h3 class="box-title">Responsive Hover Table</h3>
 
-              <div class="box-tools">
-			   <div class="box-tools">
-                <ul class="pagination pagination-sm no-margin pull-right">
-                  <li><a href="#">«</a></li>
-                  <li><a href="#">1</a></li>
-                  <li><a href="#">2</a></li>
-                  <li><a href="#">3</a></li>
-                  <li><a href="#">»</a></li>
-                </ul>
-              </div>
-               
-              </div>
+             
             </div>
             <!-- /.box-header -->
             <div class="box-body table-responsive no-padding">
-              <table class="table table-hover">
-                <tbody><tr>
-                  <th>ID</th>
-                  <th>User</th>
-                  <th>Date</th>
-                  <th>Status</th>
-                  <th>Reason</th>
-                </tr>
-                <tr>
-                  <td>183</td>
-                  <td>John Doe</td>
-                  <td>11-7-2014</td>
-                  <td><span class="label label-success">Approved</span></td>
-                  <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                </tr>
-                <tr>
-                  <td>219</td>
-                  <td>Alexander Pierce</td>
-                  <td>11-7-2014</td>
-                  <td><span class="label label-warning">Pending</span></td>
-                  <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                </tr>
-                <tr>
-                  <td>657</td>
-                  <td>Bob Doe</td>
-                  <td>11-7-2014</td>
-                  <td><span class="label label-primary">Approved</span></td>
-                  <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                </tr>
-                <tr>
-                  <td>175</td>
-                  <td>Mike Doe</td>
-                  <td>11-7-2014</td>
-                  <td><span class="label label-danger">Denied</span></td>
-                  <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                </tr>
-              </tbody></table>
+				<table class="table table-hover">
+					<tbody id="table_body">
+				
+					</tbody>
+				</table>
             </div>
             <!-- /.box-body -->
           </div>
@@ -182,7 +142,7 @@
         </div>
       </div>
     </section>
-
+ {{ csrf_field() }}
 <script>
 
 $('.fancybox-form').fancybox({
@@ -190,18 +150,103 @@ $('.fancybox-form').fancybox({
 	height: 800,
 	touch: false,
 	autoSize: false,
-	href: 'http://masternew/public/original_q1_form',
+	//href: 'http://masternew/public/original_q1_form',
 	type: 'ajax'
 });
 
-$.ajax({
-  type: 'POST',
-  url: 'response.php?action=sample2',
-  data: 'name=Andrew&nickname=Aramis',
-  success: function(data){
-    $('.results').html(data);
-  }
+	function prepare_values(data)
+	{
+		var columns_str = '<tr>';
+	
+		$.each(data, function(index, value) {
+			columns_str += '<td>' + value + '</td>'
+			
+		});
+		
+		columns_str += '</tr>';
+		
+		return columns_str;
+	}
+	
+	function prepare_columns(data)
+	{
+		var columns_str = '<tr>';
+		
+		Object.keys(data).forEach(function(key) {
+
+			columns_str += '<th>' + key + '</th>'
+
+		});
+
+		columns_str += '</tr>';
+
+		return columns_str;
+	}
+	
+	
+	
+	function do_columns_arr(data){
+		//console.log(data);
+		var columns = []
+		$.each(data, function(index, value) {
+			columns[index] = index;
+		});
+		
+		return columns;
+	}
+
+	function drow_table(data){
+		
+		var result = data.result;
+		var columns = [];
+		var columns_str = '';
+		var values_str = '';
+		
+		$.each(result, function(index, value) {
+			columns = do_columns_arr(value);
+			values_str += prepare_values(value);
+
+		});
+		
+		columns_str = prepare_columns(columns);
+		
+		
+		final_data = '<tbody id="table_body">' + columns_str + values_str + '</tbody>';
+		
+		$('#table_body').replaceWith(final_data);
+		
+	}
+
+$(document).on("click", ".ajax-statistic", function(e) {
+	e.preventDefault();
+
+	$.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+    }
 });
+	
+	$.ajax({
+	  type: 'POST',
+	  url: $(this).attr('href'),
+	 // data: 'name=Andrew&nickname=Aramis',
+	  success: function(data){
+		  
+		  console.log(data)
+		  
+		  drow_table(data);
+		//var result = data.result.q1;
+		
+		  //$('#table_body').append()
+		 // console.log(data)
+		//$('.results').html(data);
+	  }
+	});
+
+
+ });
+
+
 
 
 /*$(".box-body").fancybox({

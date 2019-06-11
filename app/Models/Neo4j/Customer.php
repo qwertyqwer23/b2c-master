@@ -5,7 +5,7 @@ use Vinelab\NeoEloquent\Eloquent\Model as NeoEloquent;
 
 class Customer extends NeoEloquent  {
 
-    protected $connection = 'neo4j_small';
+    protected $connection = 'neo4j';
 	protected $label = 'Customer';
     protected $fillable = ['id', 'NAME','ADDRESS', 'NATIONKEY', 'PHONE', 'ACCTBAL', 'MKTSEGMENT', 'COMMENT'];
 		

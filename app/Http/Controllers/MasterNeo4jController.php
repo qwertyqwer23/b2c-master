@@ -33,8 +33,8 @@ class MasterNeo4jController extends Controller
 	
 	private function rand_date()
 	{
-		$start = strtotime('1990-01-01');
-		$end = strtotime('2002-12-30');
+		$start = strtotime('2002-01-01');
+		$end = strtotime('2003-12-30');
 
 		$val = rand($start, $end);
 
@@ -221,13 +221,16 @@ class MasterNeo4jController extends Controller
 			avg(item.DISCOUNT) AS avg_disc
 			ORDER BY item.RETURNFLAG, item.LINESTATUS';
 			
-		$q3 = 'MATCH
-			(order:Order) -[:CONTAINS]-> (item:Lineitem)
-			WHERE item.COMMITDATE < item.RECEIPTDATE 
-			AND order.ORDERDATE >= 631205820
-			AND order.ORDERDATE < 9125242200
-			RETURN order.ORDERPRIORITY, count(*) AS ORDER_COUNT
-			ORDER BY order.ORDERPRIORITY';
+		$q3 = "MATCH
+			(item:Lineitem) <-[:CONTAINS]- (order:Order ) -[:CREATED_BY]-> (customer:Customer)
+			WHERE order.ORDERDATE < 912524220
+			AND item.SHIPDATE > 631205820
+			AND customer.MKTSEGMENT = 'AUTOMOBILE'
+			RETURN order.id,
+			sum(item.EXTENDEDPRICE*(1-item.DISCOUNT)) AS REVENUE,
+			order.ORDERDATE,
+			order.SHIPPRIORITY
+			ORDER BY REVENUE DESC, order.ORDERDATE";
 			
 		$q4 = 'MATCH
 			(order:Order) -[:CONTAINS]-> (item:Lineitem)
@@ -245,11 +248,24 @@ class MasterNeo4jController extends Controller
 				$result = $client->run($q1);
 			$endtime = microtime(true);
 			$timediff = $endtime - $starttime;
-			
+		
 			$sum_q1 += $timediff;
 			$result_arr['query_exec_time_q1'][] = $timediff;
 		}
-		
+		foreach ($result->getRecords() as $record) {
+			$result_arr['result']['q1'] = [
+				"item.RETURNFLAG" =>$record->value("item.RETURNFLAG"),
+				"item.LINESTATUS" => $record->value("item.LINESTATUS"),
+				"sum_qty" => $record->value('sum_qty'),
+				"sum_base_price" => $record->value('sum_base_price'),
+				"sum_disc_price" => $record->value('sum_disc_price'),
+				"sum_charge" => $record->value('sum_charge'),
+				"avg_qty" => $record->value('avg_qty'),
+				"avg_price" => $record->value('avg_price'),
+				"avg_disc" => $record->value('avg_disc')
+			];	
+		}
+	
 		for ($i = 1; $i <= $count; $i++) {
 			$starttime = microtime(true);
 				$result = $client->run($q3);
@@ -260,6 +276,16 @@ class MasterNeo4jController extends Controller
 			$result_arr['query_exec_time_q3'][] = $timediff;
 		}
 		
+		foreach ($result->getRecords() as $record) {
+			$result_arr['result']['q3'] = [
+				"order.id" => $record->value('order.id'),
+				"REVENUE" => $record->value('REVENUE'),
+				"order.ORDERDATE" => $record->value('order.ORDERDATE'),
+				"order.SHIPPRIORITY" => $record->value('order.SHIPPRIORITY')
+		
+			];	
+		}
+	
 		for ($i = 1; $i <= $count; $i++) {
 			$starttime = microtime(true);
 				$result = $client->run($q4);
@@ -269,60 +295,184 @@ class MasterNeo4jController extends Controller
 			$sum_q4 += $timediff;
 			$result_arr['query_exec_time_q4'][] = $timediff;
 		}
-		
-		$result_arr['avg']['q1'] = $sum_q1 / $count;
-		$result_arr['avg']['q2'] = $sum_q3 / $count;
-		$result_arr['avg']['q3'] = $sum_q4 / $count;
-		
 		foreach ($result->getRecords() as $record) {
-			$data_arr[] = [
+			$result_arr['result']['q4'] = [
 				'order.ORDERPRIORITY' =>$record->value('ORDER_COUNT'),
 				'ORDER_COUNT' => $record->value('order.ORDERPRIORITY')
 			];	
 		}
 		
-		$result_arr['data'] = $data_arr;
+		$result_arr['avg']['q1'] = $sum_q1 / $count;
+		$result_arr['avg']['q3'] = $sum_q3 / $count;
+		$result_arr['avg']['q4'] = $sum_q4 / $count;
+
 		echo '<pre>';
 		print_r($result_arr);
 		
 		return $result_arr;
 	}
 	
-	function generate_big_data(){
-		set_time_limit(200000);
+	function q1_statistic($count=15)
+	{
 		$client = $this->create_connection();
-		for ($i = 1; $i <= 3000; $i++) {
-			$this->insert_part($client);
+		
+		$q1 = 'MATCH (item:Lineitem)
+			WHERE item.SHIPDATE <= 912524220
+			RETURN item.RETURNFLAG,
+			item.LINESTATUS,
+			sum(item.QUANTITY) AS sum_qty,
+			sum(item.EXTENDEDPRICE) AS sum_base_price,
+			sum(item.EXTENDEDPRICE*(1-item.DISCOUNT)) AS sum_disc_price,
+			sum(item.EXTENDEDPRICE*(1-item.DISCOUNT)*(1+item.TAX)) AS sum_charge,
+			avg(item.QUANTITY) AS avg_qty,
+			avg(item.EXTENDEDPRICE) AS avg_price,
+			avg(item.DISCOUNT) AS avg_disc,
+			COUNT(*) as count_sum
+			ORDER BY item.RETURNFLAG, item.LINESTATUS';
+			
+		$sum_q1 = 0;
+		for ($i = 1; $i <= $count; $i++) {
+			$starttime = microtime(true);
+				$result = $client->run($q1);
+			$endtime = microtime(true);
+			$timediff = $endtime - $starttime;
+		
+			$sum_q1 += $timediff;
+			$result_arr['query_exec_time'][] = $timediff;
 		}
-		die('here3');
-		/*
-		for ($i = 1; $i <= 10000; $i++) {
+		
+		foreach ($result->getRecords() as $record) {
+			$result_arr['result'][] = [
+				"sum_qty" => $record->value('sum_qty'),
+				"sum_base_price" => $record->value('sum_base_price'),
+				"sum_disc_price" => $record->value('sum_disc_price'),
+				"sum_charge" => $record->value('sum_charge'),
+				"avg_price" => $record->value('avg_price'),
+				"avg_qty" => $record->value('avg_qty'),
+				"avg_disc" => $record->value('avg_disc'),
+				"count_sum" => $record->value('count_sum'),
+				"item.RETURNFLAG" =>$record->value("item.RETURNFLAG"),
+				"item.LINESTATUS" => $record->value("item.LINESTATUS"),
+			];	
+		}
+		
+		$result_arr['avg'] = $sum_q1 / $count;
+		
+		return $result_arr;
+	}
+	
+	function q3_statistic($count=15)
+	{
+		$client = $this->create_connection();
+		
+		$q3 = "MATCH
+			(item:Lineitem) <-[:CONTAINS]- (order:Order ) -[:CREATED_BY]-> (customer:Customer)
+			WHERE order.ORDERDATE < 912524220
+			AND item.SHIPDATE > 631205820
+			AND customer.MKTSEGMENT = 'AUTOMOBILE'
+			RETURN order.id,
+			sum(item.EXTENDEDPRICE*(1-item.DISCOUNT)) AS REVENUE,
+			order.ORDERDATE,
+			order.SHIPPRIORITY
+			ORDER BY REVENUE DESC, order.ORDERDATE";
+			
+		$sum_q3 = 0;
+		
+			for ($i = 1; $i <= $count; $i++) {
+			$starttime = microtime(true);
+				$result = $client->run($q3);
+			$endtime = microtime(true);
+			$timediff = $endtime - $starttime;
+			
+			$sum_q3 += $timediff;
+			$result_arr['query_exec_time'][] = $timediff;
+		}
+		
+		foreach ($result->getRecords() as $record) {
+			$result_arr['result'][] = [
+				"order.id" => $record->value('order.id'),
+				"REVENUE" => $record->value('REVENUE'),
+				"order.ORDERDATE" => $record->value('order.ORDERDATE'),
+				"order.SHIPPRIORITY" => $record->value('order.SHIPPRIORITY')
+		
+			];	
+		}
+		
+		$result_arr['avg'] = $sum_q3 / $count;
+		
+		return $result_arr;
+	}
+	
+	function q4_statistic($count=15)
+	{
+		$client = $this->create_connection();
+		
+		$q4 = 'MATCH
+			(order:Order) -[:CONTAINS]-> (item:Lineitem)
+			WHERE item.COMMITDATE < item.RECEIPTDATE 
+			AND order.ORDERDATE >= 631205820
+			AND order.ORDERDATE < 9125242200
+			RETURN order.ORDERPRIORITY, count(*) AS ORDER_COUNT
+			ORDER BY order.ORDERPRIORITY';
+		
+		$sum_q4 = 0;
+		
+		for ($i = 1; $i <= $count; $i++) {
+			$starttime = microtime(true);
+				$result = $client->run($q4);
+			$endtime = microtime(true);
+			$timediff = $endtime - $starttime;
+			
+			$sum_q4 += $timediff;
+			$result_arr['query_exec_time'][] = $timediff;
+		}
+		foreach ($result->getRecords() as $record) {
+			$result_arr['result'][] = [
+				'order.ORDERPRIORITY' =>$record->value('ORDER_COUNT'),
+				'ORDER_COUNT' => $record->value('order.ORDERPRIORITY')
+			];	
+		}
+		
+		$result_arr['avg'] = $sum_q4 / $count;
+		
+		return $result_arr;	
+	}
+	
+	function generate_big_data($counter='10000'){
+		set_time_limit(200000);
+	
+		//$counter = 50000;
+		$counter = 500000;
+		
+		/*for ($i = 1; $i <= $counter; $i++) {
+			$this->insert_part();
+		*/
+		
+		for ($i = 1; $i <= 250000; $i++) {
 			$this->insert_supplier();
 		}
 		
-		for ($i = 1; $i <= 10000; $i++) {
+		for ($i = 1; $i <= $counter; $i++) {
 			$this->insert_part_supplier();
-		}*/
+		}
 		
 		
-		for ($i = 1; $i <= 3000; $i++) {
+		for ($i = 1; $i <= $counter; $i++) {
 			$this->insert_customer();
 		}
 		
-		die('here 4');
-		
-		for ($i = 1; $i <= 10000; $i++) {
+		for ($i = 1; $i <= $counter; $i++) {
 			$this->insert_lineitem();
 		}
 		
-		for ($i = 1; $i <= 10000; $i++) {
+		for ($i = 1; $i <= $counter; $i++) {
 			$this->insert_orders();
 		}
 	}	
 
-	public function insert_part($client)
+	public function insert_part()
 	{
-		/*$part = new Part([
+		$part = new Part([
 			'id' => rand(1, 200000),
 			'NAME' => $this->generate_string(55),									
 			'MFGR' => $this->generate_string(25),									
@@ -334,9 +484,9 @@ class MasterNeo4jController extends Controller
 			'COMMENT' => $this->generate_string(23),
 		]);
 		
-		$part->save();*/
+		$part->save();
 		
-		$part = "
+		/*$part = "
 		CREATE (n:Part {
 			id: '". rand(1, 200000) ."',
 			NAME: '".$this->generate_string(55) ."',
@@ -349,7 +499,7 @@ class MasterNeo4jController extends Controller
 			COMMENT: '".$this->generate_string(23)."'
 			})
 		";
-		$client->run($part);
+		$client->run($part);*/
 	}
 	
 	public function insert_supplier()

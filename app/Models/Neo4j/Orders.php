@@ -5,7 +5,7 @@ use Vinelab\NeoEloquent\Eloquent\Model as NeoEloquent;
 
 class Orders extends NeoEloquent  {
 
-    protected $connection = 'neo4j_small';
+    protected $connection = 'neo4j';
 	protected $label = 'Order';
     protected $fillable = ['id','CUSTKEY', 'ORDERSTATUS', 'TOTALPRICE', 'ORDERDATE', 'ORDERPRIORITY', 'CLERK', 'SHIPPRIORITY', 'COMMENT'];
 

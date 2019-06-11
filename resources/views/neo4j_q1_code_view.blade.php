@@ -17,9 +17,10 @@
 		<p class="h2_p"><span style="color: blue;">sum</span>(item.EXTENDEDPRICE) <span style="color: blue;">AS</span> sum_base_price,</p>
 		<p class="h2_p"><span style="color: blue;">sum</span>(item.EXTENDEDPRICE*(1-item.DISCOUNT)) <span style="color: blue;">AS</span> sum_disc_price,</p>
 		<p class="h2_p"><span style="color: blue;">sum</span>(item.EXTENDEDPRICE*(1-item.DISCOUNT)*(1+item.TAX)) <span style="color: blue;">AS</span> sum_charge,</p>
-		<p class="h2_p"><span style="color: blue;">avg</span>(item.QUANTITY) <span style="color: blue;">AS</span> avg_qty,</p>
+		<!--<p class="h2_p"><span style="color: blue;">avg</span>(item.QUANTITY) <span style="color: blue;">AS</span> avg_qty,</p>-->
 		<p class="h2_p"><span style="color: blue;">avg</span>(item.EXTENDEDPRICE) <span style="color: blue;">AS</span> avg_price,</p>
-		<p class="h2_p"><span style="color: blue;">avg</span>(item.DISCOUNT) <span style="color: blue;">AS</span> avg_disc</p>
+		<p class="h2_p"><span style="color: blue;">avg</span>(item.DISCOUNT) <span style="color: blue;">AS</span> avg_disc,</p>
+		<p class="h2_p"><span style="color: blue;">COUNT</span>(*) <span style="color: blue;">AS</span> count_sum,</p>
 		<p class="h2_p"><span style="color: blue;">ORDER BY</span> item.RETURNFLAG, item.LINESTATUS</p>
 	
 	</div>

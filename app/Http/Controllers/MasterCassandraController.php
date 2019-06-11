@@ -207,9 +207,180 @@ class MasterCassandraController extends Controller
 		return $result_arr;
 	}
 	
+	function q1_statistic($count='15')
+	{
+		$keyspace  = 'b2c_small';
+		//$keyspace = 'b2c_middle';
+		//$keyspace = 'b2c_big';
+		
+		$connection = $this->do_connection($keyspace);
+	
+		$q1 = "SELECT
+			returnflag,
+			linestatus,
+			sum(quantity) as sum_qty,
+			sum(extendedprice) as sum_base_price,
+			sum(".$keyspace.".fSumDiscPrice(extendedprice,discount)) as sum_disc_price,
+			sum(".$keyspace.".fSumChargePrice(extendedprice,discount,tax)) as sum_charge,
+			avg(quantity) as avg_qty, avg(extendedprice) as avg_price,
+			avg(discount) as avg_disc,
+			count(*) as count_order
+			FROM
+			".$keyspace.".lineitem
+			WHERE
+			shipdate < 912524220
+			and returnflag= 'N'
+			and linestatus = 'O'
+			ALLOW FILTERING 
+		";
+		
+		$sum_q1 = 0;
+		for ($i = 1; $i <= $count; $i++) {
+			$starttime = microtime(true);
+				$result = $this->do_query($connection, $q1);
+			$endtime = microtime(true);
+			$timediff = $endtime - $starttime;
+			
+			$sum_q1 += $timediff;
+			$result_arr['query_exec_time'][] = $timediff;
+		}
+		
+		foreach ($result as $row) {
+			$result_arr['result'][] = [
+				'sum_qty' => $row['sum_qty'],
+				'sum_base_price' => $row['sum_base_price'],
+				'sum_disc_price' => $row['sum_disc_price'],
+				'sum_charge' => $row['sum_charge'],
+				'avg_price' => $row['avg_price'],
+				'avg_qty' => $row['avg_qty'],
+				'avg_disc' => $row['avg_disc'],
+				'count_order' => sprintf( $row['count_order']),
+				'returnflag' => $row['returnflag'],
+				'linestatus' => $row['linestatus'],
+			];
+		}
+		
+		$result_arr['avg'] = $sum_q1 / $count;
+		
+		return $result_arr;
+	}
+	
+	function q3_statistic($count='15')
+	{	
+		$keyspace  = 'b2c_small';
+		//$keyspace = 'b2c_middle';
+		//$keyspace = 'b2c_big';
+		
+		$connection = $this->do_connection($keyspace);
+	
+		/*$q3 = "
+			SELECT
+			orderkey,
+			sum(".$keyspace.".fSumDiscPrice(l_extendedprice,l_discount)) as revenue,
+			o_orderdate,
+			l_shipdate,
+			o_shippriority,
+			linenumber
+			from
+			".$keyspace.".tpch_q3
+			where
+			o_orderdate < '1998-12-01'
+			and l_shipdate > '1990-01-01'
+			ALLOW FILTERING
+		";*/
+		
+		$q3 = "
+			SELECT
+			orderkey,
+			sum(".$keyspace.".fSumDiscPrice(l_extendedprice,l_discount)) as revenue,
+			o_orderdate,
+			l_shipdate,
+			o_shippriority,
+			linenumber
+			from
+			".$keyspace.".tpch_q3
+			where
+			c_mktsegment = 'AUTOMOBILE'
+			and o_shippriority = '0'
+			and o_orderdate <= '1998-12-01'
+			ALLOW FILTERING
+		";
+		
+	
+		
+		$sum_q3 = 0;
+		
+		for ($i = 1; $i <= $count; $i++) {
+			$starttime = microtime(true);
+				$result = $this->do_query($connection, $q3);
+			$endtime = microtime(true);
+			$timediff = $endtime - $starttime;
+			
+			$sum_q3 += $timediff;
+			$result_arr['query_exec_time_q3'][] = $timediff;
+		}
+		
+		foreach ($result as $row) {
+			$result_arr['result'][] = [
+					'orderkey' => $row['orderkey'],
+					'revenue' => $row['revenue'],
+					'o_orderdate' => date('Y-m-d', substr(sprintf($row['o_orderdate']),0,9)),
+					'l_shipdate' =>  date('Y-m-d', substr(sprintf($row['l_shipdate']),0, 9)),
+					'o_shippriority' => $row['o_shippriority'],
+					'linenumber' => $row['linenumber'],
+					
+			];
+		}
+
+		$result_arr['avg'] = $sum_q3 / $count;
+		
+		return $result_arr;
+	}
+	
+	function q4_statistic($count='15')
+	{
+		$keyspace  = 'b2c_small';
+		//$keyspace = 'b2c_middle';
+		//$keyspace = 'b2c_big';
+		$connection = $this->do_connection($keyspace);	
+		
+		$q4 = "SELECT
+			o_orderpriority,
+			count(*) as order_count
+			from
+			".$keyspace.".tpch_q4
+			where o_orderdate >= '1990-01-01'
+			and o_orderdate < '2000-01-01'
+			and l_commitdate < '2000-01-01'
+			ALLOW FILTERING
+			";
+
+		$sum_q4 = 0;
+		for ($i = 1; $i <= $count; $i++) {
+			$starttime = microtime(true);
+				$result = $this->do_query($connection, $q4);
+			$endtime = microtime(true);
+			$timediff = $endtime - $starttime;
+			
+			$sum_q4 += $timediff;
+			$result_arr['query_exec_time_q4'][] = $timediff;
+		}
+		
+		foreach ($result as $row) {
+			$result_arr['result'][] = [
+					'o_orderpriority' => $row['o_orderpriority'],
+					'order_count' => sprintf( $row['order_count'])
+			];
+		}
+	
+		$result_arr['avg'] = $sum_q4 / $count;
+		
+		return $result_arr;
+	}
+	
 	public function removde_tables($connection = 'cassandra_small')
 	{
-		//$connection = 'cassandra_small';
+		$connection = 'cassandra_small';
 		//$connection = 'cassandra_middle';
 		//$connection = 'cassandra_big';
 		$database_arr = [
@@ -354,9 +525,9 @@ class MasterCassandraController extends Controller
 	
 	public function generate_tables()
 	{
-		//$connection = 'cassandra_small';
+		$connection = 'cassandra_small';
 		//$connection = 'cassandra_middle';
-		$connection = 'cassandra_big';
+		//$connection = 'cassandra_big';
 		$database = [
 			'cassandra_small' => 'b2c_small',
 			'cassandra_middle' => 'b2c_middle',
@@ -390,7 +561,8 @@ class MasterCassandraController extends Controller
 				l_extendedprice double,
 				l_discount double,
 				l_shipdate timestamp,
-				PRIMARY KEY ((orderkey,o_shippriority),c_mktsegment,linenumber)
+				PRIMARY KEY (c_mktsegment, o_shippriority, o_orderdate)
+				//PRIMARY KEY ((orderkey,o_shippriority),c_mktsegment,linenumber)
 			);
 		');
 		

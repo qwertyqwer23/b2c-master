@@ -5,7 +5,7 @@ use Vinelab\NeoEloquent\Eloquent\Model as NeoEloquent;
 
 class Lineitem extends NeoEloquent  {
 
-    protected $connection = 'neo4j_small';
+    protected $connection = 'neo4j';
 	protected $label = 'Lineitem';
     protected $fillable = ['ORDERKEY','PARTKEY', 'SUPPKEY', 'LINENUMBER','QUANTITY', 'EXTENDEDPRICE', 'DISCOUNT', 'TAX', 'RETURNFLAG', 'LINESTATUS', 'SHIPDATE', 'COMMITDATE', 'RECEIPTDATE', 'SHIPINSTRUCT', 'SHIPMODE', 'COMMENT'];
 			

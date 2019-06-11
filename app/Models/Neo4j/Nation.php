@@ -5,7 +5,7 @@ use Vinelab\NeoEloquent\Eloquent\Model as NeoEloquent;
 
 class Nation extends NeoEloquent  {
 
-    protected $connection = 'neo4j_small';
+    protected $connection = 'neo4j';
 	protected $label = 'Nation';
     protected $fillable = ['id','NAME', 'REGIONKEY', 'COMMENT'];
 	

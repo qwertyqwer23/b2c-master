@@ -23,22 +23,41 @@ Route::get('home', 'HomeController@index')->name('home');
 Route::get('test_queries', 'AdminLteController@test_queries')->name('test_queries');
 //Route::get('test_queries', 'AdminLteController@test_queries');
 
-/*  */
+/* Basical queries forms */
 Route::get('original_q1_form', 'AdminLteController@original_q1_form');
 Route::get('original_q3_form', 'AdminLteController@original_q3_form');
 Route::get('original_q4_form', 'AdminLteController@original_q4_form');
+/*========================================================================*/
 
+/*MongoDB views and Queries statistic*/
 Route::get('mongo_q1_code_view', 'AdminLteController@mongo_q1_code_view');
 Route::get('mongo_q3_code_view', 'AdminLteController@mongo_q3_code_view');
 Route::get('mongo_q4_code_view', 'AdminLteController@mongo_q4_code_view');
 
+Route::any('mongo_q1_statistic', 'MasterMongodbController@q1_statistic');
+Route::any('mongo_q3_statistic', 'MasterMongodbController@q3_statistic');
+Route::any('mongo_q4_statistic', 'MasterMongodbController@q4_statistic');
+/*========================================================================*/
+
+/*Neo4j view and Queries statistic*/
+Route::get('neo4j_q1_code_view', 'AdminLteController@neo4j_q1_code_view');
+Route::get('neo4j_q3_code_view', 'AdminLteController@neo4j_q3_code_view');
+Route::get('neo4j_q4_code_view', 'AdminLteController@neo4j_q4_code_view');
+
+Route::any('neo4j_q1_statistic', 'MasterNeo4jController@q1_statistic');
+Route::any('neo4j_q3_statistic', 'MasterNeo4jController@q3_statistic');
+Route::any('neo4j_q4_statistic', 'MasterNeo4jController@q4_statistic');
+/*==========================================================================*/
+
+/*Cassandra view and Queries statistic*/
 Route::get('cassandra_q1_code_view', 'AdminLteController@cassandra_q1_code_view');
 Route::get('cassandra_q3_code_view', 'AdminLteController@cassandra_q3_code_view');
 Route::get('cassandra_q4_code_view', 'AdminLteController@cassandra_q4_code_view');
 
-Route::get('neo4j_q1_code_view', 'AdminLteController@neo4j_q1_code_view');
-Route::get('neo4j_q3_code_view', 'AdminLteController@neo4j_q3_code_view');
-Route::get('neo4j_q4_code_view', 'AdminLteController@neo4j_q4_code_view');
+Route::any('cassandra_q1_statistic', 'MasterCassandraController@q1_statistic');
+Route::any('cassandra_q3_statistic', 'MasterCassandraController@q3_statistic');
+Route::any('cassandra_q4_statistic', 'MasterCassandraController@q4_statistic');
+/*==========================================================================*/
 
 Route::get('select', 'MasterMongodbController@select');
 
@@ -75,6 +94,6 @@ Route::get('select_redis', 'MasterRedisController@test');
 //Return query statistic
 Route::get('select_cassandra', 'MasterCassandraController@return_query_statistic');
 Route::get('select_neo4j', 'MasterNeo4jController@return_query_statistic');
-Route::get('select_mongodb', 'MasterMongodbController@return_query_statistic');
+Route::any('select_mongodb', 'MasterMongodbController@return_query_statistic');
 
 

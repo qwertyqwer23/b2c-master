@@ -5,7 +5,7 @@ use Vinelab\NeoEloquent\Eloquent\Model as NeoEloquent;
 
 class Partsupp extends NeoEloquent  {
 
-    protected $connection = 'neo4j_small';
+    protected $connection = 'neo4j';
 	protected $label = 'Partsupp';
     protected $fillable = ['PART_KEY','SUPPKEY', 'AVAILQTY', 'SUPPLYCOST', 'COMMENT'];
 	

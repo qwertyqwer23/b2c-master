@@ -75,6 +75,9 @@
 				<p class="h4_p">"avg_price":{ </p> 
 					<p class="h5_p">"$avg":"$EXTENDEDPRICE"</p>
 				<p class="h4_p">},</p>
+				<p class="h4_p">"avg_qty": {</p>
+					<p class="h5_p">"$avg": "$QUANTITY"</p>
+				<p class="h4_p">},</p>
 				<p class="h4_p">"avg_disc":{</p>  
 					<p class="h5_p">"$avg":"$DISCOUNT"</p>
 				<p class="h4_p">},</p>

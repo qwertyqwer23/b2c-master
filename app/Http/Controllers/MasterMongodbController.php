@@ -42,15 +42,8 @@ class MasterMongodbController extends Controller
 		return date('Y-m-d', $val);
 	}
 	
-
-	
 	private function get_q1(){
-		//dd(DB::connection('mongodb_small')->collection('b2c_small'));
-		//return DB::connection('mongodb_small')->raw(function($collection)
 		//return Lineitem::raw(function($collection)
-		//$result = DB::collection('b2c_small')->raw(function($collection)
-		//DB::connection( 'mongodb_small' )->enableQueryLog();
-		
 		return DB::connection('mongodb_small')->collection('lineitems')->raw(function($collection)
 		{
 			return $collection->aggregate([  
@@ -118,6 +111,9 @@ class MasterMongodbController extends Controller
 					 'avg_price'=>[  
 						'$avg'=>'$EXTENDEDPRICE'
 					 ],
+					 'avg_qty' => [
+					   '$avg' => '$QUANTITY'
+					  ],
 					 'avg_disc'=>[  
 						'$avg'=>'$DISCOUNT'
 					 ],
@@ -139,7 +135,8 @@ class MasterMongodbController extends Controller
 	}
 	
 	private function get_q3(){
-		return Orders::raw(function($collection)
+		return DB::connection('mongodb_small')->collection('orders')->raw(function($collection)
+		//return Orders::raw(function($collection)
 		{
 			return $collection->aggregate([
 				[  
@@ -219,7 +216,8 @@ class MasterMongodbController extends Controller
 	}
 	
 	private function get_q4(){
-		return Orders::raw(function($collection)
+		//return Orders::raw(function($collection)
+		return DB::connection('mongodb_small')->collection('orders')->raw(function($collection)
 		{
 			return $collection->aggregate([  
 				[  
@@ -303,6 +301,23 @@ class MasterMongodbController extends Controller
 		dd($q4_result);
     }
 	
+	private function do_array_data($data)
+	{
+		$data = json_decode(json_encode($data),true);
+		
+		foreach($data as $value)
+		{
+			if(isset($value['_id'])){
+				$id = $value['_id'];
+				unset($value['_id']);
+				$new_arr[] = array_merge($value, $id);
+			}else{
+				$new_arr[] = $value;
+			}	
+		}
+		
+		return $new_arr;
+	}
 	
 	public function return_query_statistic($count = 15){
 		set_time_limit(200000);	
@@ -314,16 +329,15 @@ class MasterMongodbController extends Controller
 		for ($i = 1; $i <= $count; $i++) {
 			$starttime = microtime(true);
 				$result = $this->get_q1();
-				$name = $result[0]["sum_qty"];
-				//$value = $array[0]["value"];
-				dd($name);
 			$endtime = microtime(true);
 			$timediff = $endtime - $starttime;
 			
 			$sum_q1 += $timediff;
 			$result_arr['query_exec_time_q1'][] = $timediff;
 		}
-		$result_arr['result']['q1'] = json_decode(json_encode($result),true);
+		//$result = json_decode(json_encode($result),true);
+
+		$result_arr['result']['q1'] = $this->do_array_data($result);
 	
 		for ($i = 1; $i <= $count; $i++) {
 			$starttime = microtime(true);
@@ -335,7 +349,7 @@ class MasterMongodbController extends Controller
 			$sum_q3 += $timediff;
 			$result_arr['query_exec_time_q3'][] = $timediff;
 		}
-		$result_arr['result']['q3'] = json_decode(json_encode($result),true);
+		$result_arr['result']['q3'] = $this->do_array_data($result);
 		
 		for ($i = 1; $i <= $count; $i++) {
 			$starttime = microtime(true);
@@ -346,7 +360,7 @@ class MasterMongodbController extends Controller
 			$sum_q4 += $timediff;
 			$result_arr['query_exec_time_q4'][] = $timediff;
 		}
-		$result_arr['result']['q4'] = json_decode(json_encode($result),true);
+		$result_arr['result']['q4'] = $this->do_array_data($result);
 		
 		$result_arr['avg']['q1'] = $sum_q1 / $count;
 		$result_arr['avg']['q3'] = $sum_q3 / $count;
@@ -354,6 +368,68 @@ class MasterMongodbController extends Controller
 
 		echo '<pre>';
 		print_r($result_arr);
+		
+		return $result_arr;
+	}
+	
+	function q1_statistic($count='15')
+	{
+		$sum_q1 = 0;
+		
+		for ($i = 1; $i <= $count; $i++) {
+			$starttime = microtime(true);
+				$result = $this->get_q1();
+			$endtime = microtime(true);
+			$timediff = $endtime - $starttime;
+			
+			$sum_q1 += $timediff;
+			$result_arr['query_exec_time_q1'][] = $timediff;
+		}
+		//$result = json_decode(json_encode($result),true);
+
+		$result_arr['result'] = $this->do_array_data($result);
+		$result_arr['avg']['q1'] = $sum_q1 / $count;
+		
+		return $result_arr;
+	}
+	
+	function q3_statistic($count='15')
+	{
+		$sum_q3 = 0;
+		
+		for ($i = 1; $i <= $count; $i++) {
+			$starttime = microtime(true);
+				$result = $this->get_q3();
+
+			$endtime = microtime(true);
+			$timediff = $endtime - $starttime;
+			
+			$sum_q3 += $timediff;
+			$result_arr['query_exec_time_q3'][] = $timediff;
+		}
+		
+		$result_arr['result'] = $this->do_array_data($result);
+		$result_arr['avg']['q3'] = $sum_q3 / $count;
+		
+		return $result_arr;
+	}
+	
+	function q4_statistic($count='15')
+	{
+		$sum_q4 = 0;
+		
+		for ($i = 1; $i <= $count; $i++) {
+			$starttime = microtime(true);
+				$result = $this->get_q4();
+			$endtime = microtime(true);
+			$timediff = $endtime - $starttime;
+			
+			$sum_q4 += $timediff;
+			$result_arr['query_exec_time_q4'][] = $timediff;
+		}
+		
+		$result_arr['result'] = $this->do_array_data($result);
+		$result_arr['avg']['q4'] = $sum_q4 / $count;
 		
 		return $result_arr;
 	}
