@@ -79,8 +79,6 @@ Route::get('neo_generate_big_data', 'MasterNeo4jController@generate_big_data');
 Route::get('neo_generate_tables', 'MasterNeo4jController@generate_tables');
 //Route::get('neo_generate_big_data', 'MasterNeo4jController@generate_tables');
 
-
-
 //Cassandra
 Route::get('cassandra_generate_tables', 'MasterCassandraController@generate_tables');
 Route::get('cassandra_generate_test_data', 'MasterCassandraController@generate_test_data');

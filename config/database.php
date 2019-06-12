@@ -59,6 +59,19 @@ return [
             //'sslmode' => 'prefer',
         ],*/
 		
+		'mongodb_test' => [
+            'driver' => 'mongodb',
+            'host' => '127.0.0.1',
+            'port' =>  '27017',
+            'database' => 'b2c_test',
+            'charset' => 'utf8',
+			'options'  => [
+					'database' => 'admin'
+					//'replicaSet' => 'b2c'
+			],
+            'prefix_indexes' => true,
+        ],
+		
 		'mongodb_small' => [
             'driver' => 'mongodb',
             'host' => '127.0.0.1',
@@ -93,6 +106,19 @@ return [
 			],
             'prefix_indexes' => true,
         ],
+		'cassandra_test' => [
+			'driver' => 'cassandra',
+			'host' => env('DB_HOST', '127.0.0.1'),
+			'port' =>  9042,
+			'keyspace' => 'b2c_small',
+			'username' => '',
+			'password' => '',
+			'page_size' => '5000',
+			//'consistency' => 'local_one',
+			'timeout' => null,
+			'connect_timeout' => 5.0,
+			'request_timeout' => 12.0,
+		],
 		'cassandra_small' => [
 			'driver' => 'cassandra',
 			'host' => env('DB_HOST', '127.0.0.1'),

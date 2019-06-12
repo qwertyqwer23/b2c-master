@@ -209,9 +209,11 @@ class MasterCassandraController extends Controller
 	
 	function q1_statistic($count='15')
 	{
-		$keyspace  = 'b2c_small';
+		//$keyspace  = 'b2c_small';
 		//$keyspace = 'b2c_middle';
 		//$keyspace = 'b2c_big';
+		
+		$keyspace = $_POST['bd'];
 		
 		$connection = $this->do_connection($keyspace);
 	
@@ -267,9 +269,11 @@ class MasterCassandraController extends Controller
 	
 	function q3_statistic($count='15')
 	{	
-		$keyspace  = 'b2c_small';
+		//$keyspace  = 'b2c_small';
 		//$keyspace = 'b2c_middle';
 		//$keyspace = 'b2c_big';
+		
+		$keyspace = $_POST['bd'];
 		
 		$connection = $this->do_connection($keyspace);
 	
@@ -339,9 +343,12 @@ class MasterCassandraController extends Controller
 	
 	function q4_statistic($count='15')
 	{
-		$keyspace  = 'b2c_small';
+		//$keyspace  = 'b2c_small';
 		//$keyspace = 'b2c_middle';
 		//$keyspace = 'b2c_big';
+		
+		$keyspace = $_POST['bd'];
+		
 		$connection = $this->do_connection($keyspace);	
 		
 		$q4 = "SELECT

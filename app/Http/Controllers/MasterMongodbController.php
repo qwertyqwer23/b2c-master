@@ -42,9 +42,17 @@ class MasterMongodbController extends Controller
 		return date('Y-m-d', $val);
 	}
 	
-	private function get_q1(){
+	private function get_q1($bd){
+		
+		$arr = [
+			'b2c_test' => 'mongodb_test',
+			'b2c_small' => 'mongodb_small',
+			'b2c_middle' => 'mongodb_middle',
+			'b2c_big' => 'mongodb_big'
+		];
+		
 		//return Lineitem::raw(function($collection)
-		return DB::connection('mongodb_small')->collection('lineitems')->raw(function($collection)
+		return DB::connection($arr[$bd])->collection('lineitems')->raw(function($collection)
 		{
 			return $collection->aggregate([  
 			    [  
@@ -134,8 +142,16 @@ class MasterMongodbController extends Controller
 		//dd(DB::connection('mongodb_small')->getQueryLog());
 	}
 	
-	private function get_q3(){
-		return DB::connection('mongodb_small')->collection('orders')->raw(function($collection)
+	private function get_q3($bd){
+		
+		$arr = [
+			'b2c_test' => 'mongodb_test',
+			'b2c_small' => 'mongodb_small',
+			'b2c_middle' => 'mongodb_middle',
+			'b2c_big' => 'mongodb_big'
+		];
+		
+		return DB::connection($arr[$bd])->collection('orders')->raw(function($collection)
 		//return Orders::raw(function($collection)
 		{
 			return $collection->aggregate([
@@ -215,9 +231,17 @@ class MasterMongodbController extends Controller
 		})->toArray();
 	}
 	
-	private function get_q4(){
+	private function get_q4($bd){
+		
+		$arr = [
+			'b2c_test' => 'mongodb_test',
+			'b2c_small' => 'mongodb_small',
+			'b2c_middle' => 'mongodb_middle',
+			'b2c_big' => 'mongodb_big'
+		];
+		
 		//return Orders::raw(function($collection)
-		return DB::connection('mongodb_small')->collection('orders')->raw(function($collection)
+		return DB::connection($arr[$bd])->collection('orders')->raw(function($collection)
 		{
 			return $collection->aggregate([  
 				[  
@@ -375,20 +399,21 @@ class MasterMongodbController extends Controller
 	function q1_statistic($count='15')
 	{
 		$sum_q1 = 0;
+		$database = $_POST['bd'];
 		
 		for ($i = 1; $i <= $count; $i++) {
 			$starttime = microtime(true);
-				$result = $this->get_q1();
+				$result = $this->get_q1($database);
 			$endtime = microtime(true);
 			$timediff = $endtime - $starttime;
 			
 			$sum_q1 += $timediff;
-			$result_arr['query_exec_time_q1'][] = $timediff;
+			$result_arr['query_exec_time'][] = $timediff;
 		}
 		//$result = json_decode(json_encode($result),true);
 
 		$result_arr['result'] = $this->do_array_data($result);
-		$result_arr['avg']['q1'] = $sum_q1 / $count;
+		$result_arr['avg'] = $sum_q1 / $count;
 		
 		return $result_arr;
 	}
@@ -396,20 +421,21 @@ class MasterMongodbController extends Controller
 	function q3_statistic($count='15')
 	{
 		$sum_q3 = 0;
+		$database = $_POST['bd'];
 		
 		for ($i = 1; $i <= $count; $i++) {
 			$starttime = microtime(true);
-				$result = $this->get_q3();
+				$result = $this->get_q3($database);
 
 			$endtime = microtime(true);
 			$timediff = $endtime - $starttime;
 			
 			$sum_q3 += $timediff;
-			$result_arr['query_exec_time_q3'][] = $timediff;
+			$result_arr['query_exec_time'][] = $timediff;
 		}
 		
 		$result_arr['result'] = $this->do_array_data($result);
-		$result_arr['avg']['q3'] = $sum_q3 / $count;
+		$result_arr['avg'] = $sum_q3 / $count;
 		
 		return $result_arr;
 	}
@@ -417,19 +443,20 @@ class MasterMongodbController extends Controller
 	function q4_statistic($count='15')
 	{
 		$sum_q4 = 0;
+		$database = $_POST['bd'];
 		
 		for ($i = 1; $i <= $count; $i++) {
 			$starttime = microtime(true);
-				$result = $this->get_q4();
+				$result = $this->get_q4($database);
 			$endtime = microtime(true);
 			$timediff = $endtime - $starttime;
 			
 			$sum_q4 += $timediff;
-			$result_arr['query_exec_time_q4'][] = $timediff;
+			$result_arr['query_exec_time'][] = $timediff;
 		}
 		
 		$result_arr['result'] = $this->do_array_data($result);
-		$result_arr['avg']['q4'] = $sum_q4 / $count;
+		$result_arr['avg'] = $sum_q4 / $count;
 		
 		return $result_arr;
 	}

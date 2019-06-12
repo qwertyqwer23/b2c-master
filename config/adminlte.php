@@ -130,9 +130,9 @@ return [
         [
             'text' => 'Test queries',
             'url'  => 'test_queries',
-            'icon' => 'lock',
+            'icon' => 'tasks',
         ],
-		[
+		/*[
             'text' => 'Change Password',
             'url'  => 'admin/settings',
             'icon' => 'lock',
@@ -179,7 +179,7 @@ return [
                     'url'  => '#',
                 ],
             ],
-        ],
+        ],*/
         /*'LABELS',
         [
             'text'       => 'Important',

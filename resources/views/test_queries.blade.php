@@ -111,7 +111,7 @@
 						<a type="button" href="{{URL('/cassandra_q4_statistic')}}" class="btn btn-block btn-default btn-lg ajax-statistic">Q4</a>
 					</div>
 					<div class="col-xs-2">
-					 <a type="button" href="{{URL('/cassandra_q4_code_view')}}" class="btn btn-block btn-default btn-lg fancybox-form"><i class="fa fa-code"></i></a>
+						<a type="button" href="{{URL('/cassandra_q4_code_view')}}" class="btn btn-block btn-default btn-lg fancybox-form"><i class="fa fa-code"></i></a>
 					</div>
 				  </div>
 				</div>
@@ -124,9 +124,38 @@
         <div class="col-xs-12">
           <div class="box">
             <div class="box-header">
-              <h3 class="box-title">Responsive Hover Table</h3>
-
-             
+				<div class="row">
+                <div class="col-sm-3 col-xs-6">
+                  <div class="description-block border-right">
+                   <h3 class="box-title">Statistic Table</h3>
+                  </div>
+                  <!-- /.description-block -->
+                </div>
+                <!-- /.col -->
+                <div class="col-sm-3 col-xs-6">
+                 
+                  <select id="choosen_database" name="database" class="form-control" style="margin-top:5px;">
+                    <option>b2c_test</option>
+                    <option>b2c_small</option>
+                    <option>b2c_middle</option>
+                    <option>b2c_big</option>
+                  </select>
+               
+                </div>
+                <!-- /.col -->
+                <div class="col-sm-3 col-xs-6">
+                  <div class="description-block border-right">
+                    <span class="description-percentage text-green"><i class="fa fa-caret-up"></i> AVG Execution time</span>
+                    <h5 class="description-header" id="avg_time">0</h5>
+                   
+                  </div>
+                  <!-- /.description-block -->
+                </div>
+                <!-- /.col -->
+                <div class="col-sm-3 col-xs-6">
+					<a class="btn btn-block btn-default btn-lg" data-toggle="modal" data-target="#exampleModal">Time extended</a>
+                </div>
+              </div>
             </div>
             <!-- /.box-header -->
             <div class="box-body table-responsive no-padding">
@@ -142,17 +171,44 @@
         </div>
       </div>
     </section>
+	
+
+	<!--Hidden Modal -->
+	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	  <div class="modal-dialog" role="document">
+		<div class="modal-content">
+		  <div class="modal-header">
+			<span class="username"><b>Timpu de executie desfasurat</b></span>
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			  <span aria-hidden="true">&times;</span>
+			</button>
+		  </div>
+		  <div class="modal-body">
+			<!--Hidden form-->
+				<div class="box-body queries-form">
+				
+				</div>
+			<!-- END hidden form-->
+		  </div>
+		</div>
+	  </div>
+	</div>
+		
  {{ csrf_field() }}
 <script>
 
-$('.fancybox-form').fancybox({
-	width: 800,
-	height: 800,
-	touch: false,
-	autoSize: false,
-	//href: 'http://masternew/public/original_q1_form',
-	type: 'ajax'
-});
+	$('#myModal').on('shown.bs.modal', function () {
+	  $('#myInput').trigger('focus')
+	})
+
+	$('.fancybox-form').fancybox({
+		width: 800,
+		height: 800,
+		touch: false,
+		autoSize: false,
+		href: 'http://masternew/public/original_q1_form',
+		type: 'ajax'
+	});
 
 	function prepare_values(data)
 	{
@@ -182,8 +238,6 @@ $('.fancybox-form').fancybox({
 
 		return columns_str;
 	}
-	
-	
 	
 	function do_columns_arr(data){
 		//console.log(data);
@@ -216,6 +270,22 @@ $('.fancybox-form').fancybox({
 		$('#table_body').replaceWith(final_data);
 		
 	}
+	
+	function drow_time_extended(data){
+		
+		var time_str = '';
+		
+		time_str += '<div class="box-body queries-form">';
+		$.each(data, function(index, value) {
+			
+			time_str += '<p>' + value + '</p>';
+			
+		});
+		
+		time_str + '<div>';
+		
+		$('.queries-form').replaceWith(time_str);
+	}
 
 $(document).on("click", ".ajax-statistic", function(e) {
 	e.preventDefault();
@@ -225,33 +295,29 @@ $(document).on("click", ".ajax-statistic", function(e) {
         'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
     }
 });
+	var datatbase = $('#choosen_database').val();
+	
+	var loader = '<button id="loader-btn" type="button" class="btn btn-default btn-lrg ajax" title="Ajax Request" style="margin: 5px 0 5px 40%"> <i class="fa fa-spin fa-refresh"></i>&nbsp; Get External Content </button>';
+	$('#table_body').append(loader);
 	
 	$.ajax({
 	  type: 'POST',
 	  url: $(this).attr('href'),
+	  data: {bd: datatbase},
 	 // data: 'name=Andrew&nickname=Aramis',
 	  success: function(data){
-		  
-		  console.log(data)
-		  
-		  drow_table(data);
-		//var result = data.result.q1;
 		
-		  //$('#table_body').append()
-		 // console.log(data)
-		//$('.results').html(data);
+		$('#loader-btn').removeAttr();
+		
+		drow_table(data);
+		drow_time_extended(data.query_exec_time);
+	
+		$('#avg_time').text(data.avg);
 	  }
 	});
 
 
  });
 
-
-
-
-/*$(".box-body").fancybox({
-	'showCloseButton'	: false,
-	'titlePosition' 		: 'inside',
-});*/
 </script>
 @endsection
